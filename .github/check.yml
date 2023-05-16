@@ -1,0 +1,29 @@
+name: Check Dependabot
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check-dependabot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Check if Dependabot is enabled
+        run: |
+          if ! grep -q "dependabot" .github/workflows/dependabot.yml; then
+            echo "Dependabot is not enabled"
+            exit 1
+          fi
+      - name: Run security scan
+        env:
+          CI: true
+          SKIP_INSTALL: true
+        run: |
+          yarn install
+          yarn audit
+          if grep -qiE "critical|high" yarn-audit.log; then
+            echo "Security vulnerabilities found"
+            exit 1
+          fi
