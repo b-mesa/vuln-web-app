@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Check if Dependabot is enabled
         run: |
-          if ! grep -q "dependabot" .github/workflows/dependabot.yml; then
+          if ! grep -q "dependabot" .github/dependabot.yml; then
             echo "Dependabot is not enabled"
             exit 1
           fi
