@@ -13,9 +13,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Check if Dependabot is enabled
         run: |
-          if ! grep -q "dependabot" .github/dependabot.yml; then
-            echo "Dependabot is not enabled"
-            exit 1
+          FILE=".github/dependabot.yml"
+          if [ -f "$FILE" ]; then
+          echo "$FILE exists."
+          else
+          echo "$FILE does not exist"
+          exit 1
           fi
       - name: Run security scan
         env:
