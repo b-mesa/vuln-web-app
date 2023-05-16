@@ -2,7 +2,8 @@ name: Check Dependabot
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    branches:
+      - main
 
 jobs:
   check-dependabot:
